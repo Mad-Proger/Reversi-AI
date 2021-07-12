@@ -18,6 +18,7 @@ public:
 
 	int getCurrentColor() const;
 	const int* const* getDeskState() const;
+	std::pair<int, int> getScore() const;
 	std::vector<std::pair<int, int>> getPossibleMoves() const;
 
 private:
