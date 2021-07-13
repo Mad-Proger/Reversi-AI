@@ -33,11 +33,10 @@ void AIPlayer::findMove(const Desk& d, int& xOpt, int& yOpt) const {
 
 float AIPlayer::evaluateBoard(const Desk& d) const {
 	Matrix input(65, 1);
-	auto field = d.getDeskState();
 
 	for (int x = 0; x < 8; ++x) {
 		for (int y = 0; y < 8; ++y) {
-			input(8 * x + y, 0) = float(field[x][y]);
+			input(8 * x + y, 0) = float(d(x, y));
 		}
 	}
 	input(64, 0) = float(d.getCurrentColor());
@@ -48,11 +47,10 @@ float AIPlayer::evaluateBoard(const Desk& d) const {
 float AIPlayer::dfs(float alpha, float beta, const Desk& d, size_t depth) const {
 	if (!d.checkAnyMove(-1) && !d.checkAnyMove(1)) {
 		float value = 0.f;
-		auto field = d.getDeskState();
 
 		for (int x = 0; x < 8; ++x) {
 			for (int y = 0; y < 8; ++y) {
-				value += field[x][y];
+				value += d(x, y);
 			}
 		}
 

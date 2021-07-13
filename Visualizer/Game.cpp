@@ -48,9 +48,10 @@ void Game::passClick(int x, int y) {
 void Game::copyDeskInfo(int* const* const data) {
 	mutex.lock();
 
-	auto field = d.getDeskState();
-	for (int i = 0; i < 8; ++i) {
-		memcpy(data[i], field[i], 8 * sizeof(int));
+	for (int x = 0; x < 8; ++x) {
+		for (int y = 0; y < 8; ++y) {
+			data[x][y] = d(x, y);
+		}
 	}
 
 	mutex.unlock();

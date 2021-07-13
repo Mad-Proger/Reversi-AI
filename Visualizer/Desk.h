@@ -17,9 +17,10 @@ public:
 	bool makeMove(int x, int y);
 
 	int getCurrentColor() const;
-	const int* const* getDeskState() const;
 	std::pair<int, int> getScore() const;
 	std::vector<std::pair<int, int>> getPossibleMoves() const;
+
+	int operator()(int x, int y) const;
 
 private:
 	int* fieldData;

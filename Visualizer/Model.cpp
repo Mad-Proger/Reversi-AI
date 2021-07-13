@@ -31,32 +31,12 @@ Model Model::operator=(const Model& model) {
 }
 
 void Model::load(const std::string& filename) {
-	std::ifstream input(filename);
-	if (!input.is_open()) {
-		throw std::invalid_argument("Could not open model file");
-	}
-
-	input >> inputNeurons >> n;
-	std::vector<size_t> hiddenNeurons(n);
-	for (size_t i = 0; i < n; ++i) {
-		input >> hiddenNeurons[i];
-	}
-
-	size_t prevNeurons = inputNeurons;
-	for (size_t i = 0; i < n; ++i) {
-		weights[i] = Matrix(hiddenNeurons[i], prevNeurons);
-		size_t weightsCount = hiddenNeurons[i] * prevNeurons;
-		for (size_t j = 0; j < weightsCount; ++j) {
-			input >> *(weights[i][0] + j);
-		}
-	}
-}
-
-void Model::load(const std::string& filename) {
 	std::ifstream modelData(filename);
 	if (!modelData.is_open()) {
 		throw std::invalid_argument("Couldn't open model file");
 	}
+
+	this->~Model();
 
 	modelData >> inputNeurons >> n;
 	std::vector<size_t> hiddenNeurons(n);
@@ -68,13 +48,12 @@ void Model::load(const std::string& filename) {
 	size_t prevNeurons = inputNeurons;
 	for (size_t i = 0; i < n; ++i) {
 		weights[i] = Matrix(hiddenNeurons[i], prevNeurons);
-		size_t weightsCount = hiddenNeurons[i] * prevNeurons;
-
-		std::vector<float> weightsValues(weightsCount);
-		for (size_t j = 0; j < weightsCount; ++j) {
-			modelData >> weightsValues[j];
+		
+		for (size_t x = 0; x < hiddenNeurons[i]; ++x) {
+			for (size_t y = 0; y < prevNeurons; ++y) {
+				modelData >> weights[i](x, y);
+			}
 		}
-		weights[i].setData(weightsValues);
 
 		prevNeurons = hiddenNeurons[i];
 	}

@@ -42,17 +42,10 @@ Matrix Matrix::operator*(const Matrix& x) const {
 	for (size_t i = 0; i < n; ++i) {
 		for (size_t j = 0; j < m; ++j) {
 			for (size_t k = 0; k < x.m; ++k) {
-				res[i][k] += (*this)[i][j] * x[j][k];
+				res(i, k) += operator()(i, j) * x(j, k);
 			}
 		}
 	}
-}
-
-void Matrix::setData(const std::vector<float>& d) {
-	if (d.size() != n * m) {
-		throw std::invalid_argument("Invalid data size");
-	}
-	memcpy(data, d.data(), n * m * sizeof(float));
 }
 
 void Matrix::apply(float(*func)(float)) {

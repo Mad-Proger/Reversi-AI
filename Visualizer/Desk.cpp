@@ -108,10 +108,6 @@ int Desk::getCurrentColor() const {
 	return currentColor;
 }
 
-const int* const* Desk::getDeskState() const {
-	return field;
-}
-
 std::pair<int, int> Desk::getScore() const {
 	int black = 0;
 	int white = 0;
@@ -167,4 +163,11 @@ int Desk::distanceNearest(int x, int y, int color, int dx, int dy) const {
 	}
 
 	return -1;
+}
+
+int Desk::operator()(int x, int y) const {
+	if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+		return 0;
+	}
+	return field[x][y];
 }

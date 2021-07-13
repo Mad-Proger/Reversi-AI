@@ -16,7 +16,6 @@ public:
 
 	Matrix operator*(const Matrix& x) const;
 
-	void setData(const std::vector<float>& d);
 	void apply(float(*func)(float));
 	std::pair<size_t, size_t> getSize() const;
 
