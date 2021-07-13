@@ -45,12 +45,13 @@ void Game::passClick(int x, int y) {
 	mutex.unlock();
 }
 
-void Game::copyDeskInfo(int* const* const data) {
+std::array<std::array<int, 8>, 8> Game::getCurrentDeskState() {
 	mutex.lock();
 
-	for (int x = 0; x < 8; ++x) {
-		for (int y = 0; y < 8; ++y) {
-			data[x][y] = d(x, y);
+	std::array<std::array<int, 8>, 8> res;
+	for (int i = 0; i < 8; ++i) {
+		for (int j = 0; j < 8; ++j) {
+			res[i][j] = d(i, j);
 		}
 	}
 
