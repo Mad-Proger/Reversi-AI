@@ -38,7 +38,6 @@ private:
 	sf::Text whiteScore;
 
 	std::thread eventHandleThread;
-	std::thread renderThread;
 	
 	Game& game;
 

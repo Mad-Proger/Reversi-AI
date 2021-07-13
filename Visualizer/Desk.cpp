@@ -2,7 +2,7 @@
 
 Desk::Desk() {
 	fieldData = new int[8 * 8];
-	memset(field, 0, 8 * 8 * sizeof(int));
+	memset(fieldData, 0, 8 * 8 * sizeof(int));
 	
 	field = new int* [8];
 	for (int i = 0; i < 8; ++i) {
@@ -16,7 +16,7 @@ Desk::Desk() {
 
 Desk::Desk(const Desk& d) {
 	fieldData = new int[8 * 8];
-	memcpy(field, d.field, 8 * 8 * sizeof(int));
+	memcpy(fieldData, d.fieldData, 8 * 8 * sizeof(int));
 
 	field = new int* [8];
 	for (int i = 0; i < 8; ++i) {
@@ -32,7 +32,7 @@ Desk::~Desk() {
 }
 
 Desk Desk::operator=(const Desk& d) {
-	memcpy(field, d.field, 8 * 8 * sizeof(int));
+	memcpy(fieldData, d.fieldData, 8 * 8 * sizeof(int));
 	currentColor = d.currentColor;
 	return *this;
 }
@@ -90,7 +90,7 @@ bool Desk::makeMove(int x, int y) {
 			int d = distanceNearest(x, y, currentColor, dx, dy);
 			for (int i = 0; i < d; ++i) {
 				x1 += dx;
-				y1 += dx;
+				y1 += dy;
 				field[x1][y1] = currentColor;
 			}
 		}

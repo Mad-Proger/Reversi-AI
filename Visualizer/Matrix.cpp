@@ -46,6 +46,8 @@ Matrix Matrix::operator*(const Matrix& x) const {
 			}
 		}
 	}
+
+	return res;
 }
 
 void Matrix::apply(float(*func)(float)) {

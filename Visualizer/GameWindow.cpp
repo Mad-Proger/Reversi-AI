@@ -17,7 +17,6 @@ GameWindow::GameWindow(Game& game) :
 	pieceBuffer.setRadius(pieceRadius);
 	pieceBuffer.setOutlineThickness(0.f);
 
-
 	sf::RenderTexture backgroundBuffer;
 	backgroundBuffer.create(800, 800);
 	backgroundBuffer.clear(sf::Color::Color(70, 70, 70));
@@ -39,7 +38,7 @@ GameWindow::GameWindow(Game& game) :
 	backgroundBuffer.draw(pieceBuffer);
 
 	pieceBuffer.setPosition(520.f, 30.f);
-	pieceBuffer.setFillColor(sf::Color::Black);
+	pieceBuffer.setFillColor(sf::Color::White);
 	backgroundBuffer.draw(pieceBuffer);
 
 	backgroundBuffer.display();
@@ -66,19 +65,12 @@ GameWindow::~GameWindow() {
 	if (eventHandleThread.joinable()) {
 		eventHandleThread.join();
 	}
-	if (renderThread.joinable()) {
-		renderThread.join();
-	}
 }
 
 void GameWindow::open() {
 	openFlag = true;
-
-	std::thread eventHandleThreadBuf(&GameWindow::handleEvents, this);
-	std::swap(eventHandleThreadBuf, eventHandleThread);
-
-	std::thread renderThreadBuf(&GameWindow::render, this);
-	std::swap(renderThreadBuf, renderThread);
+	std::thread eventHandleThreadBuffer(&GameWindow::handleEvents, this);
+	std::swap(eventHandleThreadBuffer, eventHandleThread);
 }
 
 bool GameWindow::isOpen() const {
@@ -90,6 +82,8 @@ void GameWindow::handleEvents() {
 	window.setView(view);
 	window.setActive(false);
 
+	std::thread renderThread(&GameWindow::render, this);
+
 	const sf::FloatRect deskBorder(deskUpperLeftCorner,
 								   deskUpperLeftCorner + 8.f * cellSize);
 
@@ -98,6 +92,7 @@ void GameWindow::handleEvents() {
 		while (window.pollEvent(evnt)) {
 			if (evnt.type == sf::Event::Closed) {
 				openFlag = false;
+				renderThread.join();
 				window.close();
 				break;
 			}
@@ -139,13 +134,8 @@ void GameWindow::render() {
 	sf::Sprite piecesSprite;
 	piecesSprite.setTextureRect(sf::IntRect(0, 0, 800, 800));
 
-	while (openFlag || window.isOpen()) {
+	while (openFlag) {
 		timer.restart();
-
-		if (!window.isOpen()) {
-			sf::sleep(sf::milliseconds(delay));
-			continue;
-		}
 
 		updateDesk();
 		piecesSprite.setTexture(pieces.getTexture());
@@ -172,13 +162,15 @@ void GameWindow::updateDesk() {
 		pieceBuffer.setRadius(pieceRadius);
 		pieceBuffer.setOutlineThickness(0.f);
 
+		const sf::Vector2f pieceShift = (cellSize - 2.f * sf::Vector2f(pieceRadius, pieceRadius)) / 2.f;
+
 		for (int i = 0; i < 8; ++i) {
 			for (int j = 0; j < 8; ++j) {
 				if (piecesData[i][j] == piecesDataBuffer[i][j]) {
 					continue;
 				}
 
-				pieceBuffer.setPosition(deskUpperLeftCorner + sf::Vector2f(cellSize.x * j, cellSize.y * i));
+				pieceBuffer.setPosition(deskUpperLeftCorner + pieceShift + sf::Vector2f(cellSize.x * j, cellSize.y * i));
 				if (piecesDataBuffer[i][j] == 1) {
 					pieceBuffer.setFillColor(sf::Color::Black);
 				} else {

@@ -7,7 +7,7 @@ Game::Game(Player& black, Player& white) :
 
 bool Game::makeMove() {
 	mutex.lock();
-	Desk d1 = d;
+	Desk d1(d);
 	mutex.unlock();
 
 	if (!d1.checkAnyMove(-1) && !d1.checkAnyMove(1)) {
@@ -56,6 +56,8 @@ std::array<std::array<int, 8>, 8> Game::getCurrentDeskState() {
 	}
 
 	mutex.unlock();
+
+	return res;
 }
 
 std::pair<int, int> Game::getScore() {
