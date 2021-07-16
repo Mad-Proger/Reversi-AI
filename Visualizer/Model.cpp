@@ -60,8 +60,8 @@ void Model::load(const std::string& filename) {
 }
 
 Matrix Model::operator()(Matrix data) const {
-	auto [n, m] = data.getSize();
-	if (n != inputNeurons || m != 1) {
+	if (data.getSize().first != inputNeurons || 
+		data.getSize().second != 1) {
 		throw std::invalid_argument("Invalid input shape");
 	}
 

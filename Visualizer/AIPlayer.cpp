@@ -3,7 +3,7 @@
 AIPlayer::AIPlayer(const Model& evaluator, size_t recursionDepth) : model(evaluator), maxDepth(recursionDepth) {
 }
 
-void AIPlayer::findMove(const Desk& d, int& xOpt, int& yOpt) const {
+void AIPlayer::findMove(const Desk& d, int& xOpt, int& yOpt) {
 	xOpt = 8;
 	yOpt = 8;
 

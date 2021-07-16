@@ -16,7 +16,7 @@ class AIPlayer :
 public:
     AIPlayer(const Model& evaluator, size_t recursionDepth);
 
-    void findMove(const Desk& d, int& xOpt, int& yOpt) const;
+    void findMove(const Desk& d, int& xOpt, int& yOpt);
 
 private:
     const size_t maxDepth;
