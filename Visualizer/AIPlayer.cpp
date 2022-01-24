@@ -10,12 +10,7 @@ void AIPlayer::findMove(const Desk& d, int& xOpt, int& yOpt) {
     Desk d1;
     std::vector<std::pair<int, int>> possibleMoves = d.getPossibleMoves();
     int color = d.getCurrentColor();
-    float optValue;
-    if (color == 1) {
-        optValue = -1.f;
-    } else {
-        optValue = 1.f;
-    }
+    float optValue = color == 1 ? -1.f : 1.f;
 
     for (auto [x, y] : possibleMoves) {
         d1 = d;
@@ -48,8 +43,8 @@ float AIPlayer::dfs(float alpha, float beta, const Desk& d, size_t depth) const 
     if (!d.checkAnyMove(-1) && !d.checkAnyMove(1)) {
         float value = 0.f;
 
-        for (int x = 0; x < 8; ++x) {
-            for (int y = 0; y < 8; ++y) {
+        for (size_t x = 0; x < 8; ++x) {
+            for (size_t y = 0; y < 8; ++y) {
                 value += d(x, y);
             }
         }

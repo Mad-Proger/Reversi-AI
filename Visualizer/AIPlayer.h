@@ -1,10 +1,8 @@
 #pragma once
 
-#include <memory>
 #include <vector>
 #include <utility>
 #include <algorithm>
-#include <stdexcept>
 
 #include "Desk.h"
 #include "Model.h"
