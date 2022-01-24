@@ -113,8 +113,8 @@ void GameWindow::handleEvents() {
                 sf::Vector2f cellCoords(clickCoords.x / cellSize.x,
                                         clickCoords.y / cellSize.y);
 
-                game.passClick(int(std::floorf(cellCoords.y)),
-                               int(std::floorf(cellCoords.x)));
+                game.passClick(int(std::floor(cellCoords.y)),
+                               int(std::floor(cellCoords.x)));
             }
         }
 
