@@ -5,7 +5,7 @@ Desk::Desk() {
     memset(fieldData, 0, 8 * 8 * sizeof(int));
 
     field = new int* [8];
-    for (int i = 0; i < 8; ++i) {
+    for (size_t i = 0; i < 8; ++i) {
         field[i] = fieldData + 8 * i;
     }
 
@@ -19,7 +19,7 @@ Desk::Desk(const Desk& d) {
     memcpy(fieldData, d.fieldData, 8 * 8 * sizeof(int));
 
     field = new int* [8];
-    for (int i = 0; i < 8; ++i) {
+    for (size_t i = 0; i < 8; ++i) {
         field[i] = fieldData + 8 * i;
     }
 
