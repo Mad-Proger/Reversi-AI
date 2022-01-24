@@ -20,7 +20,7 @@ public:
     std::pair<int, int> getScore() const;
     std::vector<std::pair<int, int>> getPossibleMoves() const;
 
-    int operator()(int x, int y) const;
+    int operator()(size_t x, size_t y) const;
 
 private:
     int* fieldData;

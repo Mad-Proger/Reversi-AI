@@ -165,8 +165,8 @@ int Desk::distanceNearest(int x, int y, int color, int dx, int dy) const {
     return -1;
 }
 
-int Desk::operator()(int x, int y) const {
-    if (x < 0 || x >= 8 || y < 0 || y >= 8) {
+int Desk::operator()(size_t x, size_t y) const {
+    if (x >= 8 || y >= 8) {
         return 0;
     }
     return field[x][y];
