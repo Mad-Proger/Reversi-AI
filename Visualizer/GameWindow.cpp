@@ -6,8 +6,8 @@ GameWindow::GameWindow(Game& game) :
 	cellSize(80.f, 80.f), pieceRadius(35.f) {
 	openFlag = false;
 
-	view.reset(sf::FloatRect(0.f, 0.f, 800.f, 800.f));
-	view.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
+	view.reset(sf::FloatRect(sf::Vector2f(0.f, 0.f), sf::Vector2f(800.f, 800.f)));
+	view.setViewport(sf::FloatRect(sf::Vector2f(0.f, 0.f), sf::Vector2f(1.f, 1.f)));
 
 	sf::RectangleShape cellBuffer;
 	cellBuffer.setSize(cellSize);
@@ -33,11 +33,11 @@ GameWindow::GameWindow(Game& game) :
 		}
 	}
 
-	pieceBuffer.setPosition(200.f, 30.f);
+	pieceBuffer.setPosition(sf::Vector2f(200.f, 30.f));
 	pieceBuffer.setFillColor(sf::Color::Black);
 	backgroundBuffer.draw(pieceBuffer);
 
-	pieceBuffer.setPosition(520.f, 30.f);
+	pieceBuffer.setPosition(sf::Vector2f(520.f, 30.f));
 	pieceBuffer.setFillColor(sf::Color::White);
 	backgroundBuffer.draw(pieceBuffer);
 
@@ -54,11 +54,11 @@ GameWindow::GameWindow(Game& game) :
 
 	blackScore.setFont(font);
 	blackScore.setCharacterSize(60);
-	blackScore.setPosition(300.f, 30.f);
+	blackScore.setPosition(sf::Vector2f(300.f, 30.f));
 
 	whiteScore.setFont(font);
 	whiteScore.setCharacterSize(60);
-	whiteScore.setPosition(430.f, 30.f);
+	whiteScore.setPosition(sf::Vector2f(430.f, 30.f));
 }
 
 GameWindow::~GameWindow() {
@@ -132,7 +132,7 @@ void GameWindow::render() {
 	sf::Sprite backgroundSprite;
 	backgroundSprite.setTexture(background, true);
 	sf::Sprite piecesSprite;
-	piecesSprite.setTextureRect(sf::IntRect(0, 0, 800, 800));
+	piecesSprite.setTextureRect(sf::IntRect(sf::Vector2i(0, 0), sf::Vector2i(800, 800)));
 
 	while (openFlag) {
 		timer.restart();
