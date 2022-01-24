@@ -10,19 +10,19 @@
 
 class Model {
 public:
-	Model();
-	Model(const Model& model);
-	~Model();
+    Model();
+    Model(const Model& model);
+    ~Model();
 
-	Model operator=(const Model& model);
+    Model operator=(const Model& model);
 
-	void load(const std::string& filename);
+    void load(const std::string& filename);
 
-	Matrix operator()(Matrix data) const;
+    Matrix operator()(Matrix data) const;
 
 private:
-	size_t inputNeurons;
-	size_t n;
-	Matrix* weights;
+    size_t inputNeurons;
+    size_t n;
+    Matrix* weights;
 };
 

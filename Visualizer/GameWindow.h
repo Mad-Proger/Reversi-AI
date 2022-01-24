@@ -12,36 +12,36 @@
 
 class GameWindow {
 public:
-	GameWindow(Game& game);
-	~GameWindow();
+    GameWindow(Game& game);
+    ~GameWindow();
 
-	void open();
+    void open();
 
-	bool isOpen() const;
+    bool isOpen() const;
 
 private:
-	static const sf::Int32 delay = 30;
-	const sf::Vector2f deskUpperLeftCorner;
-	const sf::Vector2f cellSize;
-	const float pieceRadius;
+    static const sf::Int32 delay = 30;
+    const sf::Vector2f deskUpperLeftCorner;
+    const sf::Vector2f cellSize;
+    const float pieceRadius;
 
-	sf::RenderWindow window;
-	bool openFlag;
-	sf::View view;
+    sf::RenderWindow window;
+    bool openFlag;
+    sf::View view;
 
-	sf::Texture background;
-	sf::RenderTexture pieces;
-	std::array<std::array<int, 8>, 8> piecesData;
+    sf::Texture background;
+    sf::RenderTexture pieces;
+    std::array<std::array<int, 8>, 8> piecesData;
 
-	sf::Font font;
-	sf::Text blackScore;
-	sf::Text whiteScore;
+    sf::Font font;
+    sf::Text blackScore;
+    sf::Text whiteScore;
 
-	std::thread eventHandleThread;
-	
-	Game& game;
+    std::thread eventHandleThread;
 
-	void handleEvents();
-	void render();
-	void updateDesk();
+    Game& game;
+
+    void handleEvents();
+    void render();
+    void updateDesk();
 };
