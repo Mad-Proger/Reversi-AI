@@ -60,14 +60,13 @@ void Model::load(const std::string& filename) {
 }
 
 Matrix Model::operator()(Matrix data) const {
-    if (data.getSize().first != inputNeurons ||
-        data.getSize().second != 1) {
+    try {
+        for (size_t i = 0; i < n; ++i) {
+            data = weights[i] * data;
+            data.apply(std::tanh);
+        }
+    } catch (std::invalid_argument) {
         throw std::invalid_argument("Invalid input shape");
-    }
-
-    for (size_t i = 0; i < n; ++i) {
-        data = weights[i] * data;
-        data.apply(std::tanhf);
     }
 
     return data;
