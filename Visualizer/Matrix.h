@@ -27,4 +27,3 @@ private:
     size_t m;
     float* data;
 };
-

@@ -25,4 +25,3 @@ private:
     float evaluateBoard(const Desk& d) const;
     float dfs(float alpha, float beta, const Desk& d, size_t depth) const;
 };
-

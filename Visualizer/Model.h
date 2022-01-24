@@ -25,4 +25,3 @@ private:
     size_t n;
     Matrix* weights;
 };
-

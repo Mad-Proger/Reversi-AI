@@ -24,4 +24,3 @@ private:
     Player& white;
     std::mutex mutex;
 };
-

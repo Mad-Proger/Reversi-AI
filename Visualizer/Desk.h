@@ -29,4 +29,3 @@ private:
 
     int distanceNearest(int x, int y, int color, int dx, int dy) const;
 };
-
