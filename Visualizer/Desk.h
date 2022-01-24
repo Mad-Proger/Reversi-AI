@@ -1,7 +1,7 @@
 #pragma once
 
-#include <memory>
 #include <vector>
+#include <cstring>
 #include <utility>
 
 class Desk {
