@@ -5,19 +5,19 @@
 #include "WindowPlayer.h"
 
 int main() {
-	Model model;
-	model.load("reversi.model");
-	AIPlayer p1(model, 8);
-	WindowPlayer p2;
-	Game game(p1, p2);
-	GameWindow window(game);
+    Model model;
+    model.load("reversi.model");
+    AIPlayer p1(model, 8);
+    WindowPlayer p2;
+    Game game(p1, p2);
+    GameWindow window(game);
 
-	window.open();
+    window.open();
 
-	bool moveMade;
-	do {
-		moveMade = game.makeMove();
-	} while (window.isOpen() && moveMade);
+    bool moveMade;
+    do {
+        moveMade = game.makeMove();
+    } while (window.isOpen() && moveMade);
 
-	return 0;
+    return 0;
 }
