@@ -4,9 +4,12 @@
 #include "GameWindow.h"
 #include "WindowPlayer.h"
 
-int main() {
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        throw std::invalid_argument("No model provided");
+    }
     Model model;
-    model.load("reversi.model");
+    model.load(argv[1]);
     AIPlayer p1(model, 8);
     WindowPlayer p2;
     Game game(p1, p2);
