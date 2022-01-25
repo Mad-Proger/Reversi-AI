@@ -3,7 +3,12 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_compile_definitions(SFML_STATIC)
 
-set(DEPENDENCIES_PREFIX C:/Libraries)
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+	set(DEPENDENCIES_PREFIX /usr/local)
+else()
+	set(DEPENDENCIES_PREFIX C:/Libraries)
+endif()
+
 set(LIBDIR ${DEPENDENCIES_PREFIX}/lib)
 set(INCLUDEDIR ${DEPENDENCIES_PREFIX}/include)
 set(SOURCES AIPlayer.cpp Desk.cpp Game.cpp GameWindow.cpp main.cpp Matrix.cpp Model.cpp WindowPlayer.cpp)
