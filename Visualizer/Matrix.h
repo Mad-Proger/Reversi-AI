@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include <cstring>
 #include <vector>
 #include <utility>
 #include <stdexcept>

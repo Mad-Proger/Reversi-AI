@@ -19,14 +19,14 @@ GameWindow::GameWindow(Game& game) :
 
     sf::RenderTexture backgroundBuffer;
     backgroundBuffer.create(800, 800);
-    backgroundBuffer.clear(sf::Color::Color(70, 70, 70));
+    backgroundBuffer.clear(sf::Color(70, 70, 70));
 
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
             if ((i + j) % 2 == 0) {
-                cellBuffer.setFillColor(sf::Color::Color(0, 200, 0));
+                cellBuffer.setFillColor(sf::Color(0, 200, 0));
             } else {
-                cellBuffer.setFillColor(sf::Color::Color(0, 150, 0));
+                cellBuffer.setFillColor(sf::Color(0, 150, 0));
             }
             cellBuffer.setPosition(deskUpperLeftCorner + sf::Vector2f(cellSize.x * j, cellSize.y * i));
             backgroundBuffer.draw(cellBuffer);
