@@ -11,5 +11,6 @@ float Evaluator::getPositionValue(const Desk& d) const {
             input(idx++) = float(d(i, j));
         }
     }
+    input(idx++) = float(d.getCurrentColor());
     return model(input)(0);
 }
