@@ -1,15 +1,15 @@
 #include "Evaluator.h"
 
-Evaluator::Evaluator(const Model& model) : model(model) {
+Evaluator::Evaluator(const keras2cpp::Model& model) : model(model) {
 }
 
 float Evaluator::getPositionValue(const Desk& d) const {
-    Matrix input(65, 1);
-    for (size_t x = 0; x < 8; ++x) {
-        for (size_t y = 0; y < 8; ++y) {
-            input(8 * x + y, 0) = float(d(x, y));
+    keras2cpp::Tensor input{ 65 };
+    size_t idx = 0;
+    for (size_t i = 0; i < 8; ++i) {
+        for (size_t j = 0; j < 8; ++j) {
+            input(idx++) = float(d(i, j));
         }
     }
-    input(64, 0) = float(d.getCurrentColor());
-    return model(input)(0, 0);
+    return model(input)(0);
 }

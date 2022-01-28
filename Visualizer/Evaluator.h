@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Desk.h"
-#include "Model.h"
+#include "src/model.h"
+#include "src/tensor.h"
 
 class Evaluator {
 public:
-    Evaluator(const Model& model);
+    Evaluator(const keras2cpp::Model& model);
 
     float getPositionValue(const Desk& d) const;
 private:
-    Model model;
+    const keras2cpp::Model& model;
 };
