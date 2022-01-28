@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "Model.h"
 #include "AIPlayer.h"
 #include "Evaluator.h"
 #include "GameWindow.h"

@@ -12,7 +12,7 @@ endif()
 set(LIBDIR ${DEPENDENCIES_PREFIX}/lib)
 set(INCLUDEDIR ${DEPENDENCIES_PREFIX}/include)
 set(KERAS2CPP_DIR "../keras2cpp")
-set(SOURCES AIPlayer.cpp Desk.cpp Evaluator.cpp Game.cpp GameWindow.cpp main.cpp Matrix.cpp Model.cpp WindowPlayer.cpp)
+set(SOURCES AIPlayer.cpp Desk.cpp Evaluator.cpp Game.cpp GameWindow.cpp main.cpp WindowPlayer.cpp)
 set(KERAS2CPP_SOURCES 
 	${KERAS2CPP_DIR}/src/utils.cc
     ${KERAS2CPP_DIR}/src/baseLayer.cc
