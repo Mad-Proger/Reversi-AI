@@ -50,7 +50,7 @@ GameWindow::GameWindow(Game& game) :
     pieces.display();
     pieces.setActive(false);
 
-    font.loadFromFile("font.ttf");
+    font.loadFromFile("res/font.ttf");
 
     blackScore.setFont(font);
     blackScore.setCharacterSize(60);

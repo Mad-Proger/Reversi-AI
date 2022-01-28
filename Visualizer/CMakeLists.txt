@@ -11,7 +11,26 @@ endif()
 
 set(LIBDIR ${DEPENDENCIES_PREFIX}/lib)
 set(INCLUDEDIR ${DEPENDENCIES_PREFIX}/include)
-set(SOURCES AIPlayer.cpp Desk.cpp Game.cpp GameWindow.cpp main.cpp Matrix.cpp Model.cpp WindowPlayer.cpp)
+set(KERAS2CPP_DIR "../keras2cpp")
+set(SOURCES AIPlayer.cpp Desk.cpp Evaluator.cpp Game.cpp GameWindow.cpp main.cpp WindowPlayer.cpp)
+set(KERAS2CPP_SOURCES 
+	${KERAS2CPP_DIR}/src/utils.cc
+    ${KERAS2CPP_DIR}/src/baseLayer.cc
+    ${KERAS2CPP_DIR}/src/layers/activation.cc
+    ${KERAS2CPP_DIR}/src/layers/conv1d.cc
+    ${KERAS2CPP_DIR}/src/layers/conv2d.cc
+    ${KERAS2CPP_DIR}/src/layers/dense.cc
+    ${KERAS2CPP_DIR}/src/layers/elu.cc
+    ${KERAS2CPP_DIR}/src/layers/embedding.cc
+    ${KERAS2CPP_DIR}/src/layers/flatten.cc
+    ${KERAS2CPP_DIR}/src/layers/lstm.cc
+    ${KERAS2CPP_DIR}/src/layers/locally1d.cc
+    ${KERAS2CPP_DIR}/src/layers/locally2d.cc
+    ${KERAS2CPP_DIR}/src/layers/maxPooling2d.cc
+    ${KERAS2CPP_DIR}/src/layers/batchNormalization.cc
+    ${KERAS2CPP_DIR}/src/model.cc
+    ${KERAS2CPP_DIR}/src/tensor.cc
+)
 
 project(Visualizer)
 add_executable(Visualizer ${SOURCES})
@@ -52,3 +71,5 @@ else()
 endif()
 
 target_include_directories(Visualizer PRIVATE ${INCLUDEDIR})
+target_include_directories(Visualizer PRIVATE ${KERAS2CPP_DIR})
+target_sources(Visualizer PRIVATE ${KERAS2CPP_SOURCES})

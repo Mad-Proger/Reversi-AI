@@ -1,6 +1,6 @@
 #include "AIPlayer.h"
 
-AIPlayer::AIPlayer(const Model& evaluator, size_t recursionDepth) : model(evaluator), maxDepth(recursionDepth) {
+AIPlayer::AIPlayer(const Evaluator& evaluator, size_t recursionDepth) : evaluator(evaluator), maxDepth(recursionDepth) {
 }
 
 void AIPlayer::findMove(const Desk& d, int& xOpt, int& yOpt) {
@@ -26,19 +26,6 @@ void AIPlayer::findMove(const Desk& d, int& xOpt, int& yOpt) {
     }
 }
 
-float AIPlayer::evaluateBoard(const Desk& d) const {
-    Matrix input(65, 1);
-
-    for (size_t x = 0; x < 8; ++x) {
-        for (size_t y = 0; y < 8; ++y) {
-            input(8 * x + y, 0) = float(d(x, y));
-        }
-    }
-    input(64, 0) = float(d.getCurrentColor());
-
-    return model(input)(0, 0);
-}
-
 float AIPlayer::dfs(float alpha, float beta, const Desk& d, size_t depth) const {
     if (!d.checkAnyMove(-1) && !d.checkAnyMove(1)) {
         float value = 0.f;
@@ -52,7 +39,7 @@ float AIPlayer::dfs(float alpha, float beta, const Desk& d, size_t depth) const 
         return value / 64.f;
     }
     if (depth >= maxDepth) {
-        return evaluateBoard(d);
+        return evaluator.getPositionValue(d);
     }
 
     int color = d.getCurrentColor();
