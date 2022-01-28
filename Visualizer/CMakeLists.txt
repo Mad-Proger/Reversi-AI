@@ -11,7 +11,7 @@ endif()
 
 set(LIBDIR ${DEPENDENCIES_PREFIX}/lib)
 set(INCLUDEDIR ${DEPENDENCIES_PREFIX}/include)
-set(SOURCES AIPlayer.cpp Desk.cpp Game.cpp GameWindow.cpp main.cpp Matrix.cpp Model.cpp WindowPlayer.cpp)
+set(SOURCES AIPlayer.cpp Desk.cpp Evaluator.cpp Game.cpp GameWindow.cpp main.cpp Matrix.cpp Model.cpp WindowPlayer.cpp)
 
 project(Visualizer)
 add_executable(Visualizer ${SOURCES})

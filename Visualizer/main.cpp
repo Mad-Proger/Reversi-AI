@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Model.h"
 #include "AIPlayer.h"
+#include "Evaluator.h"
 #include "GameWindow.h"
 #include "WindowPlayer.h"
 
@@ -10,7 +11,8 @@ int main(int argc, char* argv[]) {
     }
     Model model;
     model.load(argv[1]);
-    AIPlayer p1(model, 8);
+    Evaluator nnEvaluator(model);
+    AIPlayer p1(nnEvaluator, 8);
     WindowPlayer p2;
     Game game(p1, p2);
     GameWindow window(game);
