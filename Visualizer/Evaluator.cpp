@@ -11,6 +11,18 @@ float Evaluator::getPositionValue(const Desk& d) const {
             input(idx++) = float(d(i, j));
         }
     }
-    input(idx++) = float(d.getCurrentColor());
-    return model(input)(0);
+    int color = d.getCurrentColor();
+    input(idx++) = float(color);
+
+    keras2cpp::Tensor output = model(input);
+    output.resize(8, 8);
+    float value = float(-color);
+    for (int x = 0; x < 8; ++x) {
+        for (int y = 0; y < 8; ++y) {
+            if (d.checkMove(x, y, d.getCurrentColor())) {
+                value = std::min(value, -color * output(x, y));
+            }
+        }
+    }
+    return -color * value;
 }

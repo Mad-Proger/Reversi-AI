@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 #include "Desk.h"
 #include "src/model.h"
 #include "src/tensor.h"
