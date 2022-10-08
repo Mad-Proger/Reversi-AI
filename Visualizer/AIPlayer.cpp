@@ -27,18 +27,7 @@ void AIPlayer::findMove(const Desk& d, int& xOpt, int& yOpt) {
 }
 
 float AIPlayer::dfs(float alpha, float beta, const Desk& d, size_t depth) const {
-    if (!d.checkAnyMove(-1) && !d.checkAnyMove(1)) {
-        float value = 0.f;
-
-        for (size_t x = 0; x < 8; ++x) {
-            for (size_t y = 0; y < 8; ++y) {
-                value += d(x, y);
-            }
-        }
-
-        return value / 64.f;
-    }
-    if (depth >= maxDepth) {
+    if (depth >= maxDepth || (!d.checkAnyMove(-1) && !d.checkAnyMove(1))) {
         return evaluator.getPositionValue(d);
     }
 

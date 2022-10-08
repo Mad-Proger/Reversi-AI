@@ -9,8 +9,7 @@ int main(int argc, char* argv[]) {
     if (argc < 2) {
         throw std::invalid_argument("No model provided");
     }
-    keras2cpp::Model model = keras2cpp::Model::load(argv[1]);
-    Evaluator nnEvaluator(model);
+    Evaluator nnEvaluator;
     AIPlayer p1(nnEvaluator, 8);
     WindowPlayer p2;
     Game game(p1, p2);
