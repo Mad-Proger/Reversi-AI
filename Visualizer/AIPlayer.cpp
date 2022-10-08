@@ -43,7 +43,7 @@ float AIPlayer::dfs(float alpha, float beta, const Desk& d, size_t depth) const 
     }
 
     int color = d.getCurrentColor();
-    float value = color == 1 ? 1.f : -1.f;
+    float value = color == 1 ? -1.f : 1.f;
     std::vector<std::pair<int, int>> possibleMoves = d.getPossibleMoves();
     Desk d1;
 
