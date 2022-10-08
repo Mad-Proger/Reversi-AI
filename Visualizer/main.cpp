@@ -3,7 +3,6 @@
 #include "Evaluator.h"
 #include "GameWindow.h"
 #include "WindowPlayer.h"
-#include "src/model.h"
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
