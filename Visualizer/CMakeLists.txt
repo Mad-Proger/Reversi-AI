@@ -43,7 +43,7 @@ else()
 	target_link_libraries(Visualizer PRIVATE ${WINMM})
 	target_link_libraries(Visualizer PRIVATE ${GDI32})
 
-	add_compile_definitions(SFML_STATIC)
+	target_compile_definitions(Visualizer PRIVATE SFML_STATIC)
 
 	if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 		find_library(SFML_GRAPHICS NAMES sfml-graphics-s-d REQUIRED)
@@ -59,6 +59,11 @@ endif()
 target_link_libraries(Visualizer PRIVATE ${SFML_GRAPHICS})
 target_link_libraries(Visualizer PRIVATE ${SFML_WINDOW})
 target_link_libraries(Visualizer PRIVATE ${SFML_SYSTEM})
+
+find_package(Torch REQUIRED)
+target_link_libraries(Visualizer PRIVATE ${TORCH_LIBRARIES})
+target_include_directories(Visualizer PRIVATE ${TORCH_INCLUDE_DIRS})
+target_compile_options(Visualizer PRIVATE ${TORCH_CXX_FLAGS})
 
 install(TARGETS Visualizer DESTINATION .)
 install(FILES ${RESOURCES} DESTINATION ./res)

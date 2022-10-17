@@ -5,10 +5,15 @@
 #include "WindowPlayer.h"
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        throw std::invalid_argument("No model provided");
-    }
-    Evaluator nnEvaluator;
+    torch::nn::Sequential model(
+        torch::nn::Linear(64, 256),
+        torch::nn::Tanh(),
+        torch::nn::Linear(256, 128),
+        torch::nn::Tanh(),
+        torch::nn::Linear(128, 1),
+        torch::nn::Tanh()
+    );
+    Evaluator nnEvaluator(model);
     AIPlayer p1(nnEvaluator, 8);
     WindowPlayer p2;
     Game game(p1, p2);
