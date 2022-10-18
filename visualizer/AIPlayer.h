@@ -4,7 +4,7 @@
 #include <utility>
 #include <algorithm>
 
-#include "Desk.h"
+#include "common/Desk.h"
 #include "Player.h"
 #include "Evaluator.h"
 

@@ -4,7 +4,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(SOURCES 
 	visualizer/AIPlayer.cpp
-	visualizer/Desk.cpp
 	visualizer/Evaluator.cpp
 	visualizer/Game.cpp
 	visualizer/GameWindow.cpp
@@ -66,6 +65,9 @@ find_package(Torch REQUIRED)
 target_link_libraries(visualizer PRIVATE ${TORCH_LIBRARIES})
 target_include_directories(visualizer PRIVATE ${TORCH_INCLUDE_DIRS})
 target_compile_options(visualizer PRIVATE ${TORCH_CXX_FLAGS})
+
+target_link_libraries(visualizer PRIVATE common_modules)
+target_include_directories(visualizer PRIVATE ${CMAKE_SOURCE_DIR})
 
 install(TARGETS visualizer DESTINATION .)
 install(FILES ${RESOURCES} DESTINATION ./res)

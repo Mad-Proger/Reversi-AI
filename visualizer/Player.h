@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "Desk.h"
+#include "common/Desk.h"
 
 class Player {
 public:

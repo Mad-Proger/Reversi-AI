@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Desk.h"
+#include "common/Desk.h"
 
 #include <torch/torch.h>
 
