@@ -18,7 +18,7 @@ float Evaluator::getActualScore(const Desk& d) {
     float res = 0.f;
     for (size_t i = 0; i < 8; ++i) {
         for (size_t j = 0; j < 8; ++j) {
-            res += d(i, j);
+            res += static_cast<float>(d(i, j));
         }
     }
     return res / 64;
@@ -26,13 +26,13 @@ float Evaluator::getActualScore(const Desk& d) {
 
 float Evaluator::getModelPrediction(const Desk& d) const {
     torch::Tensor inp = torch::zeros({ 8, 8 });
-    for (size_t i = 0; i < 8; ++i) {
-        for (size_t j = 0; j < 8; ++j) {
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
             inp[i][j] = d(i, j);
         }
     }
 
-    auto model = d.getCurrentColor() == 1 ? blackModel : whiteModel;
+    auto& model = d.getCurrentColor() == 1 ? blackModel : whiteModel;
     auto res = model->forward(inp.reshape({ -1 }));
     return *res.data_ptr<float>();
 }
