@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.18)
 set(SOURCES
     train/EpsilonGreedy.cpp
     train/main.cpp
+    train/CompressedDesk.cpp
 )
 
 project(train)
