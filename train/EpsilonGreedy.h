@@ -8,10 +8,10 @@
 
 class EpsilonGreedy {
 public:
-    EpsilonGreedy(NeuralNetwork  blackModel,
-                  NeuralNetwork  whiteModel,
+    EpsilonGreedy(NeuralNetwork blackModel,
+                  NeuralNetwork whiteModel,
                   float epsilon);
-    
+
     std::pair<int, int> findMove(const Desk& d) const;
 
 private:
@@ -23,6 +23,7 @@ private:
     mutable std::uniform_int_distribution<int> coordinateDistribution;
 
     std::pair<int, int> findRandomMove(const Desk& d) const;
+
     std::pair<int, int> findOptimalMove(const Desk& d) const;
 
     float evaluatePosition(const Desk& d) const;

@@ -1,6 +1,6 @@
 #include "WindowPlayer.h"
 
-WindowPlayer::WindowPlayer() : mutex(), cond() {
+WindowPlayer::WindowPlayer(): mutex(), cond() {
     moveX = 8;
     moveY = 8;
 }

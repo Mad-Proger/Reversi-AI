@@ -13,9 +13,11 @@ public:
     Game(Player& black, Player& white);
 
     bool makeMove();
+
     void passClick(int x, int y);
 
     std::array<std::array<int, 8>, 8> getCurrentDeskState();
+
     std::pair<int, int> getScore();
 
 private:

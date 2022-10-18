@@ -1,14 +1,14 @@
 #include "EpsilonGreedy.h"
 
-EpsilonGreedy::EpsilonGreedy(NeuralNetwork  blackModel,
-                             NeuralNetwork  whiteModel,
+EpsilonGreedy::EpsilonGreedy(NeuralNetwork blackModel,
+                             NeuralNetwork whiteModel,
                              float epsilon):
-        blackModel(std::move(blackModel)),
-        whiteModel(std::move(whiteModel)),
-        epsilon(epsilon),
-        rnd(std::random_device()()),
-        probabilityDistribution(),
-        coordinateDistribution(0, 7){}
+    blackModel(std::move(blackModel)),
+    whiteModel(std::move(whiteModel)),
+    epsilon(epsilon),
+    rnd(std::random_device()()),
+    probabilityDistribution(),
+    coordinateDistribution(0, 7) {}
 
 std::pair<int, int> EpsilonGreedy::findMove(const Desk& d) const {
     if (probabilityDistribution(rnd) < epsilon) {

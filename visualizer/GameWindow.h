@@ -15,6 +15,7 @@
 class GameWindow {
 public:
     GameWindow(Game& game, const std::filesystem::path& fontFile);
+
     ~GameWindow();
 
     void open();
@@ -44,6 +45,8 @@ private:
     Game& game;
 
     void handleEvents();
+
     void render();
+
     void updateDesk();
 };

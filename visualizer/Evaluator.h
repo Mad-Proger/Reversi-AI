@@ -16,13 +16,15 @@ public:
               const std::filesystem::path& whiteModelFile);
 
     float getPositionValue(const Desk& d) const;
+
 private:
     mutable NeuralNetwork blackModel;
     mutable NeuralNetwork whiteModel;
 
     static float getActualScore(const Desk& d);
+
     float getModelPrediction(const Desk& d) const;
-    
+
     static void loadModel(NeuralNetwork& model,
                           const std::filesystem::path& modelFile);
 };

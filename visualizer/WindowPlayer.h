@@ -7,12 +7,13 @@
 #include "common/Desk.h"
 #include "Player.h"
 
-class WindowPlayer :
+class WindowPlayer:
     public Player {
 public:
     WindowPlayer();
 
-    void findMove(const Desk& d, int& xOpt, int& yOpt);
+    void findMove(const Desk& d, int& xOpt, int& yOpt) override;
+
     void passClick(int x, int y);
 
 private:

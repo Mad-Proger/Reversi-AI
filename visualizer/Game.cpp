@@ -1,9 +1,8 @@
 #include "Game.h"
 
-Game::Game(Player& black, Player& white) :
+Game::Game(Player& black, Player& white):
     d(), mutex(),
-    black(black), white(white) {
-}
+    black(black), white(white) {}
 
 bool Game::makeMove() {
     mutex.lock();
