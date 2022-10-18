@@ -8,7 +8,10 @@ EpsilonGreedy::EpsilonGreedy(NeuralNetwork blackModel,
     epsilon(epsilon),
     rnd(std::random_device()()),
     probabilityDistribution(),
-    coordinateDistribution(0, 7) {}
+    coordinateDistribution(0, 7) {
+    this->blackModel->train(false);
+    this->whiteModel->train(false);
+}
 
 std::pair<int, int> EpsilonGreedy::findMove(const Desk& d) const {
     if (probabilityDistribution(rnd) < epsilon) {

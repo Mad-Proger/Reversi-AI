@@ -5,6 +5,8 @@ Evaluator::Evaluator(const std::filesystem::path& blackModelFile,
     blackModel(), whiteModel() {
     loadModel(blackModel, blackModelFile);
     loadModel(whiteModel, whiteModelFile);
+    blackModel->train(false);
+    whiteModel->train(false);
 }
 
 float Evaluator::getPositionValue(const Desk& d) const {
