@@ -2,14 +2,21 @@
 
 #include "common/Desk.h"
 
+#include <torch/torch.h>
+
 #include <cstdint>
 
 class CompressedDesk {
 public:
     CompressedDesk() = default;
-    CompressedDesk(const Desk& d);
+
+    explicit CompressedDesk(const Desk& d);
 
     bool operator<(const CompressedDesk& other) const;
+
+    torch::Tensor toTensor() const;
+
+    int getCurrentColor() const;
 
 private:
     int cntPieces;

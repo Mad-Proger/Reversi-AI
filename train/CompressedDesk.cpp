@@ -27,3 +27,20 @@ bool CompressedDesk::operator<(const CompressedDesk& other) const {
     }
     return whitePiecesMask < other.whitePiecesMask;
 }
+
+torch::Tensor CompressedDesk::toTensor() const {
+    torch::Tensor res = torch::zeros({ 64 });
+    uint64_t bit = 1;
+    for (int i = 0; i < 64; ++i, bit <<= 1) {
+        if (blackPiecesMask & bit) {
+            res[i] = 1.f;
+        } else if (whitePiecesMask & bit) {
+            res[i] = -1.f;
+        }
+    }
+    return res;
+}
+
+int CompressedDesk::getCurrentColor() const {
+    return currentColor;
+}

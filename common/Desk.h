@@ -12,11 +12,13 @@ public:
 
     ~Desk();
 
-    Desk operator=(const Desk& d);
+    Desk& operator=(const Desk& d);
 
     bool checkMove(int x, int y, int color) const;
 
     bool checkAnyMove(int color) const;
+
+    bool checkAnyMove() const;
 
     bool makeMove(int x, int y);
 
