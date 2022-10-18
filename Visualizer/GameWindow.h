@@ -1,19 +1,20 @@
 #pragma once
 
-#include <array>
-#include <cmath>
-#include <string>
-#include <thread>
+#include "Game.h"
 
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
 #include "SFML/Graphics.hpp"
 
-#include "Game.h"
+#include <array>
+#include <cmath>
+#include <filesystem>
+#include <string>
+#include <thread>
 
 class GameWindow {
 public:
-    GameWindow(Game& game);
+    GameWindow(Game& game, const std::filesystem::path& fontFile);
     ~GameWindow();
 
     void open();

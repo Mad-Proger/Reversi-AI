@@ -3,18 +3,23 @@
 #include "Evaluator.h"
 #include "GameWindow.h"
 #include "WindowPlayer.h"
-#include "src/model.h"
+
+#include <filesystem>
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) {
-        throw std::invalid_argument("No model provided");
+    std::filesystem::path executable = std::filesystem::absolute(argv[0]);
+    std::filesystem::path resourceDir = executable.parent_path() / "res";
+    std::filesystem::path modelFile = resourceDir / "default.model";
+    if (argc > 1) {
+        modelFile = std::filesystem::absolute(argv[1]);
     }
-    keras2cpp::Model model = keras2cpp::Model::load(argv[1]);
-    Evaluator nnEvaluator(model);
+
+    Evaluator nnEvaluator(modelFile);
     AIPlayer p1(nnEvaluator, 8);
     WindowPlayer p2;
     Game game(p1, p2);
-    GameWindow window(game);
+    std::filesystem::path fontFile = resourceDir / "font.ttf";
+    GameWindow window(game, fontFile);
 
     window.open();
 
