@@ -3,21 +3,21 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(SOURCES 
-	AIPlayer.cpp
-	Desk.cpp
-	Evaluator.cpp
-	Game.cpp
-	GameWindow.cpp
-	main.cpp
-	WindowPlayer.cpp
+	visualizer/AIPlayer.cpp
+	visualizer/Desk.cpp
+	visualizer/Evaluator.cpp
+	visualizer/Game.cpp
+	visualizer/GameWindow.cpp
+	visualizer/main.cpp
+	visualizer/WindowPlayer.cpp
 )
 set(RESOURCES
-	res/font.ttf
-	res/black.model
-	res/white.model
+	visualizer/res/font.ttf
+	visualizer/res/black.model
+	visualizer/res/white.model
 )
 
-project(Visualizer)
+project(Visualizer VERSION 1.0)
 add_executable(Visualizer ${SOURCES})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
