@@ -1,6 +1,24 @@
 #include "Evaluator.h"
 
-Evaluator::Evaluator(const torch::nn::Sequential& model) : m_model(model) {}
+Evaluator::Evaluator(const std::filesystem::path& modelPath) : m_model(
+    torch::nn::Linear(64, 256),
+    torch::nn::Tanh(),
+    torch::nn::Linear(256, 128),
+    torch::nn::Tanh(),
+    torch::nn::Linear(128, 1),
+    torch::nn::Tanh()
+) {
+    std::ifstream modelFile(modelPath, std::ios::binary);
+    if (!modelFile.is_open()) {
+        throw std::runtime_error("Couldn't open model file");
+    }
+
+    torch::serialize::InputArchive in;
+    in.load_from(modelFile);
+    m_model->load(in);
+
+    modelFile.close();
+}
 
 float Evaluator::getPositionValue(const Desk& d) const {
     if (d.checkAnyMove(1) && d.checkAnyMove(-1)) {

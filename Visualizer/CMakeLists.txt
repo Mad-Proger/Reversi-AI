@@ -13,6 +13,7 @@ set(SOURCES
 )
 set(RESOURCES
 	res/font.ttf
+	res/default.model
 )
 
 project(Visualizer)

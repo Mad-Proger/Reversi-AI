@@ -1,6 +1,6 @@
 #include "GameWindow.h"
 
-GameWindow::GameWindow(Game& game) :
+GameWindow::GameWindow(Game& game, const std::filesystem::path& fontFile) :
     game(game), piecesData(),
     deskUpperLeftCorner(sf::Vector2f(80.f, 130.f)),
     cellSize(80.f, 80.f), pieceRadius(35.f) {
@@ -50,7 +50,7 @@ GameWindow::GameWindow(Game& game) :
     pieces.display();
     pieces.setActive(false);
 
-    font.loadFromFile("res/font.ttf");
+    font.loadFromFile(fontFile.string());
 
     blackScore.setFont(font);
     blackScore.setCharacterSize(60);

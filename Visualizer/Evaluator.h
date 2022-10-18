@@ -4,9 +4,14 @@
 
 #include <torch/torch.h>
 
+#include <filesystem>
+#include <fstream>
+#include <stdexcept>
+#include <string>
+
 class Evaluator {
 public:
-    Evaluator(const torch::nn::Sequential& model);
+    Evaluator(const std::filesystem::path& modelFile);
 
     float getPositionValue(const Desk& d) const;
 private:

@@ -4,20 +4,22 @@
 #include "GameWindow.h"
 #include "WindowPlayer.h"
 
+#include <filesystem>
+
 int main(int argc, char* argv[]) {
-    torch::nn::Sequential model(
-        torch::nn::Linear(64, 256),
-        torch::nn::Tanh(),
-        torch::nn::Linear(256, 128),
-        torch::nn::Tanh(),
-        torch::nn::Linear(128, 1),
-        torch::nn::Tanh()
-    );
-    Evaluator nnEvaluator(model);
+    std::filesystem::path executable = std::filesystem::absolute(argv[0]);
+    std::filesystem::path resourceDir = executable.parent_path() / "res";
+    std::filesystem::path modelFile = resourceDir / "default.model";
+    if (argc > 1) {
+        modelFile = std::filesystem::absolute(argv[1]);
+    }
+
+    Evaluator nnEvaluator(modelFile);
     AIPlayer p1(nnEvaluator, 8);
     WindowPlayer p2;
     Game game(p1, p2);
-    GameWindow window(game);
+    std::filesystem::path fontFile = resourceDir / "font.ttf";
+    GameWindow window(game, fontFile);
 
     window.open();
 
