@@ -1,23 +1,10 @@
 #include "Evaluator.h"
 
-Evaluator::Evaluator(const std::filesystem::path& modelPath) : m_model(
-    torch::nn::Linear(64, 256),
-    torch::nn::Tanh(),
-    torch::nn::Linear(256, 128),
-    torch::nn::Tanh(),
-    torch::nn::Linear(128, 1),
-    torch::nn::Tanh()
-) {
-    std::ifstream modelFile(modelPath, std::ios::binary);
-    if (!modelFile.is_open()) {
-        throw std::runtime_error("Couldn't open model file");
-    }
-
-    torch::serialize::InputArchive in;
-    in.load_from(modelFile);
-    m_model->load(in);
-
-    modelFile.close();
+Evaluator::Evaluator(const std::filesystem::path& blackModelFile,
+                     const std::filesystem::path& whiteModelFile):
+                     blackModel(), whiteModel() {
+    loadModel(blackModel, blackModelFile);
+    loadModel(whiteModel, whiteModelFile);    
 }
 
 float Evaluator::getPositionValue(const Desk& d) const {
@@ -45,6 +32,21 @@ float Evaluator::getModelPrediction(const Desk& d) const {
         }
     }
 
-    auto res = m_model->forward(inp.reshape({ -1 }));
+    auto model = d.getCurrentColor() == 1 ? blackModel : whiteModel;
+    auto res = model->forward(inp.reshape({ -1 }));
     return *res.data_ptr<float>();
+}
+
+void Evaluator::loadModel(NeuralNetwork& model,
+                          const std::filesystem::path& modelFilepath) {
+    std::ifstream modelFile(modelFilepath, std::ios::binary);
+    if (!modelFile.is_open()) {
+        throw std::runtime_error("Couldn't open model file");
+    }
+
+    torch::serialize::InputArchive in;
+    in.load_from(modelFile);
+    model->load(in);
+
+    modelFile.close();
 }

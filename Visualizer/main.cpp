@@ -9,12 +9,10 @@
 int main(int argc, char* argv[]) {
     std::filesystem::path executable = std::filesystem::absolute(argv[0]);
     std::filesystem::path resourceDir = executable.parent_path() / "res";
-    std::filesystem::path modelFile = resourceDir / "default.model";
-    if (argc > 1) {
-        modelFile = std::filesystem::absolute(argv[1]);
-    }
+    std::filesystem::path blackModelFile = resourceDir / "black.model";
+    std::filesystem::path whiteModelFile = resourceDir / "white.model";
 
-    Evaluator nnEvaluator(modelFile);
+    Evaluator nnEvaluator(blackModelFile, whiteModelFile);
     AIPlayer p1(nnEvaluator, 8);
     WindowPlayer p2;
     Game game(p1, p2);
