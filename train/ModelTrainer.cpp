@@ -13,6 +13,12 @@ void ModelTrainer::playGames(int cntGames, int jobs, float epsilon) {
     generatePositionValues(stateTree);
 }
 
+void ModelTrainer::fitModels(int epochs, float learningRate) {
+    auto [blackDataset, whiteDataset] = generateDatasets();
+    fitModel(blackModel, std::move(blackDataset), epochs, learningRate);
+    fitModel(whiteModel, std::move(whiteDataset), epochs, learningRate);
+}
+
 void ModelTrainer::saveModels(const std::filesystem::path& blackModelFilepath,
                               const std::filesystem::path& whiteModelFilepath) {
     saveModelToFile(blackModelFilepath, blackModel);
@@ -104,4 +110,44 @@ void ModelTrainer::playGamesThread(std::map<CompressedDesk, std::set<CompressedD
         stateTree[st];
     }
     mutex.unlock();
+}
+
+void ModelTrainer::fitModel(NeuralNetwork& model, PositionDataset&& dataset, int epochs, float learningRate) {
+    torch::optim::SGD optimizer(model->parameters(), torch::optim::SGDOptions(learningRate));
+    auto dataLoader = torch::data::make_data_loader(std::move(dataset),
+                                                    torch::data::DataLoaderOptions(60));
+
+    for (int epoch = 0; epoch < epochs; ++epoch) {
+        for (const auto& batch : *dataLoader) {
+            auto [data, target] = stackBatch(batch);
+            optimizer.zero_grad();
+            torch::Tensor results = model->forward(data);
+            torch::Tensor loss = torch::nn::functional::mse_loss(results, target);
+            loss.backward();
+            optimizer.step();
+        }
+    }
+}
+
+std::pair<PositionDataset, PositionDataset> ModelTrainer::generateDatasets() const {
+    PositionDataset blackDataset, whiteDataset;
+
+    for (const auto& [position, value] : positionValues) {
+        if (position.getCurrentColor() == 1) {
+            blackDataset.add(position, value);
+        } else {
+            whiteDataset.add(position, value);
+        }
+    }
+
+    return { blackDataset, whiteDataset };
+}
+
+std::pair<torch::Tensor, torch::Tensor> ModelTrainer::stackBatch(const std::vector<torch::data::Example<>>& batch) {
+    std::vector<torch::Tensor> data, target;
+    for (const auto& [d, t] : batch) {
+        data.push_back(d);
+        target.push_back(t);
+    }
+    return { torch::stack(data), torch::stack(target) };
 }

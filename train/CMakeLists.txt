@@ -5,6 +5,7 @@ set(SOURCES
     train/EpsilonGreedy.cpp
     train/main.cpp
     train/ModelTrainer.cpp
+    train/PositionDataset.cpp
 )
 
 project(train)
@@ -17,3 +18,5 @@ find_package(Torch REQUIRED)
 target_link_libraries(train PRIVATE ${TORCH_LIBRARIES})
 target_include_directories(train PRIVATE ${TORCH_INCLUDE_DIRS})
 target_compile_options(train PRIVATE ${TORCH_CXX_FLAGS})
+
+install(TARGETS train DESTINATION .)
