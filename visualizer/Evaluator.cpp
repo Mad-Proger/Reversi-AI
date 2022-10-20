@@ -10,7 +10,7 @@ Evaluator::Evaluator(const std::filesystem::path& blackModelFile,
 }
 
 float Evaluator::getPositionValue(const Desk& d) const {
-    if (d.checkAnyMove(1) && d.checkAnyMove(-1)) {
+    if (!d.checkAnyMove(1) && !d.checkAnyMove(-1)) {
         return getActualScore(d);
     }
     return getModelPrediction(d);
