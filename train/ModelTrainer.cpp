@@ -10,11 +10,16 @@ ModelTrainer::ModelTrainer(const std::filesystem::path& blackModelFilepath,
 
 void ModelTrainer::playGames(int cntGames, int jobs, float epsilon) {
     auto stateTree = generateStateTree(cntGames, jobs, epsilon);
+    std::cout << "Games played\n";
     generatePositionValues(stateTree);
+    std::cout << "Positions evaluated" << std::endl;
 }
 
 void ModelTrainer::fitModels(int epochs, float learningRate) {
     auto [blackDataset, whiteDataset] = generateDatasets();
+    std::cout << "Datasets generated\n";
+    std::cout << "Black positions count: " << blackDataset.size().value() << '\n';
+    std::cout << "White positions count: " << whiteDataset.size().value() << std::endl;
     fitModel(blackModel, std::move(blackDataset), epochs, learningRate);
     fitModel(whiteModel, std::move(whiteDataset), epochs, learningRate);
 }
@@ -115,7 +120,7 @@ void ModelTrainer::playGamesThread(std::map<CompressedDesk, std::set<CompressedD
 void ModelTrainer::fitModel(NeuralNetwork& model, PositionDataset&& dataset, int epochs, float learningRate) {
     torch::optim::SGD optimizer(model->parameters(), torch::optim::SGDOptions(learningRate));
     auto dataLoader = torch::data::make_data_loader(std::move(dataset),
-                                                    torch::data::DataLoaderOptions(60));
+                                                    torch::data::DataLoaderOptions(200).workers(20));
 
     for (int epoch = 0; epoch < epochs; ++epoch) {
         for (const auto& batch : *dataLoader) {
@@ -123,6 +128,7 @@ void ModelTrainer::fitModel(NeuralNetwork& model, PositionDataset&& dataset, int
             optimizer.zero_grad();
             torch::Tensor results = model->forward(data);
             torch::Tensor loss = torch::nn::functional::mse_loss(results, target);
+            std::cout << "Epoch: " << epoch << ", loss: " << *loss.data_ptr<float>() << std::endl;
             loss.backward();
             optimizer.step();
         }
