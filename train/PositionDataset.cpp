@@ -17,5 +17,3 @@ void PositionDataset::clear() {
 torch::optional<size_t> PositionDataset::size() const {
     return data.size();
 }
-
-
