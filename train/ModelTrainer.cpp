@@ -119,19 +119,20 @@ void ModelTrainer::playGamesThread(std::map<CompressedDesk, std::set<CompressedD
 
 void ModelTrainer::fitModel(NeuralNetwork& model, PositionDataset&& dataset, int epochs, float learningRate) {
     torch::optim::SGD optimizer(model->parameters(), torch::optim::SGDOptions(learningRate));
+    int batchSize = static_cast<int>(std::sqrt(dataset.size().value()));
     auto dataLoader = torch::data::make_data_loader(std::move(dataset),
-                                                    torch::data::DataLoaderOptions(200).workers(20));
+                                                    torch::data::DataLoaderOptions(batchSize).workers(20));
 
-    for (int epoch = 0; epoch < epochs; ++epoch) {
+    for (int epoch = 1; epoch <= epochs; ++epoch) {
         for (const auto& batch : *dataLoader) {
             auto [data, target] = stackBatch(batch);
             optimizer.zero_grad();
             torch::Tensor results = model->forward(data);
             torch::Tensor loss = torch::nn::functional::mse_loss(results, target);
-            std::cout << "Epoch: " << epoch << ", loss: " << *loss.data_ptr<float>() << std::endl;
             loss.backward();
             optimizer.step();
         }
+        std::cout << "Epoch " << epoch << " done" << std::endl;
     }
 }
 
