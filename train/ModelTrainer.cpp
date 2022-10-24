@@ -10,7 +10,7 @@ ModelTrainer::ModelTrainer(const std::filesystem::path& blackModelFilepath,
 
 void ModelTrainer::playGames(int cntGames, int jobs, float epsilon) {
     auto stateTree = generateStateTree(cntGames, jobs, epsilon);
-    std::cout << "Games played\n";
+    std::cout << "Games played" << std::endl;
     generatePositionValues(stateTree);
     std::cout << "Positions evaluated" << std::endl;
 }
@@ -124,15 +124,19 @@ void ModelTrainer::fitModel(NeuralNetwork& model, PositionDataset&& dataset, int
                                                     torch::data::DataLoaderOptions(batchSize).workers(20));
 
     for (int epoch = 1; epoch <= epochs; ++epoch) {
+        float sumLoss = 0.f;
+        float batchCount = 0;
         for (const auto& batch : *dataLoader) {
             auto [data, target] = stackBatch(batch);
             optimizer.zero_grad();
             torch::Tensor results = model->forward(data);
             torch::Tensor loss = torch::nn::functional::mse_loss(results, target);
+            sumLoss += *loss.data_ptr<float>();
+            batchCount += 1.f;
             loss.backward();
             optimizer.step();
         }
-        std::cout << "Epoch " << epoch << " done" << std::endl;
+        std::cout << "Epoch " << epoch << " done. Loss: " << sumLoss / batchCount << std::endl;
     }
 }
 
