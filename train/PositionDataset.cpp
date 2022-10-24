@@ -4,7 +4,7 @@ torch::data::Example<> PositionDataset::get(size_t index) {
     return { data[index], target[index]};
 }
 
-void PositionDataset::add(const CompressedDesk& d, float value) {
+void PositionDataset::add(const DeskState& d, float value) {
     data.push_back(d.toTensor());
     target.push_back(torch::full({ 1 }, value));
 }

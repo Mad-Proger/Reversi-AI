@@ -1,7 +1,7 @@
 #pragma once
 
 #include "common/NeuralNetwork.h"
-#include "CompressedDesk.h"
+#include "DeskState.h"
 #include "EpsilonGreedy.h"
 #include "PositionDataset.h"
 
@@ -33,19 +33,19 @@ public:
 private:
     NeuralNetwork blackModel;
     NeuralNetwork whiteModel;
-    std::map<CompressedDesk, float> positionValues;
+    std::map<DeskState, float> positionValues;
 
     static void loadModelFromFile(const std::filesystem::path& filepath, NeuralNetwork& model);
 
     static void saveModelToFile(const std::filesystem::path& filepath, NeuralNetwork& model);
 
-    std::map<CompressedDesk, std::set<CompressedDesk>> generateStateTree(int cntGames, int jobs, float epsilon);
+    std::map<DeskState, std::set<DeskState>> generateStateTree(int cntGames, int jobs, float epsilon);
 
-    void generatePositionValues(const std::map<CompressedDesk, std::set<CompressedDesk>>& stateTree);
+    void generatePositionValues(const std::map<DeskState, std::set<DeskState>>& stateTree);
 
     std::pair<PositionDataset, PositionDataset> generateDatasets() const;
 
-    void playGamesThread(std::map<CompressedDesk, std::set<CompressedDesk>>& stateTree,
+    void playGamesThread(std::map<DeskState, std::set<DeskState>>& stateTree,
                          std::mutex& mutex, int cntGames, float epsilon);
 
     static void fitModel(NeuralNetwork& model, PositionDataset&& dataset, int epochs, float learningRate);

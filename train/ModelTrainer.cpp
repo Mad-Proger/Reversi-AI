@@ -54,10 +54,10 @@ void ModelTrainer::saveModelToFile(const std::filesystem::path& filepath, Neural
     modelFile.close();
 }
 
-std::map<CompressedDesk, std::set<CompressedDesk>> ModelTrainer::generateStateTree(
+std::map<DeskState, std::set<DeskState>> ModelTrainer::generateStateTree(
     int cntGames, int jobs, float epsilon) {
     std::vector<std::thread> threads(jobs);
-    std::map<CompressedDesk, std::set<CompressedDesk>> stateTree;
+    std::map<DeskState, std::set<DeskState>> stateTree;
     std::mutex mutex;
 
     for (int i = 0; i < jobs; ++i) {
@@ -73,7 +73,7 @@ std::map<CompressedDesk, std::set<CompressedDesk>> ModelTrainer::generateStateTr
     return stateTree;
 }
 
-void ModelTrainer::generatePositionValues(const std::map<CompressedDesk, std::set<CompressedDesk>>& stateTree) {
+void ModelTrainer::generatePositionValues(const std::map<DeskState, std::set<DeskState>>& stateTree) {
     positionValues.clear();
     for (const auto& [st, nextStates] : stateTree) {
         if (nextStates.empty()) {
@@ -92,13 +92,13 @@ void ModelTrainer::generatePositionValues(const std::map<CompressedDesk, std::se
     }
 }
 
-void ModelTrainer::playGamesThread(std::map<CompressedDesk, std::set<CompressedDesk>>& stateTree,
+void ModelTrainer::playGamesThread(std::map<DeskState, std::set<DeskState>>& stateTree,
                                    std::mutex& mutex, int cntGames, float epsilon) {
-    std::vector<std::pair<CompressedDesk, CompressedDesk>> moves;
+    std::vector<std::pair<DeskState, DeskState>> moves;
     EpsilonGreedy player(blackModel, whiteModel, epsilon);
 
     for (int i = 0; i < cntGames; ++i) {
-        Desk st, prev;
+        DeskState st, prev;
 
         while (st.checkAnyMove()) {
             prev = st;

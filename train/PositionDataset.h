@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CompressedDesk.h"
+#include "DeskState.h"
 
 #include <torch/data/datasets.h>
 #include <torch/torch.h>
@@ -17,7 +17,7 @@ public:
 
     torch::optional<size_t> size() const override;
 
-    void add(const CompressedDesk& d, float value);
+    void add(const DeskState& d, float value);
 
     void clear();
 

@@ -24,7 +24,7 @@ public:
 
     int operator()(int x, int y) const;
 
-private:
+protected:
     int currentColor;
     uint64_t blackMask;
     uint64_t whiteMask;
