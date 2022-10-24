@@ -1,12 +1,12 @@
 #pragma once
 
-#include <vector>
-#include <utility>
-#include <algorithm>
-
-#include "common/Desk.h"
 #include "Player.h"
+#include "common/Desk.h"
 #include "Evaluator.h"
+
+#include <algorithm>
+#include <utility>
+#include <vector>
 
 class AIPlayer: public Player {
 public:

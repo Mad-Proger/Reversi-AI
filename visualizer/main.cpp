@@ -1,7 +1,7 @@
-#include "Game.h"
 #include "AIPlayer.h"
-#include "Evaluator.h"
+#include "Game.h"
 #include "GameWindow.h"
+#include "Evaluator.h"
 #include "WindowPlayer.h"
 
 #include <filesystem>
