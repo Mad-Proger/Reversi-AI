@@ -1,18 +1,12 @@
 #pragma once
 
-#include <vector>
-#include <cstring>
+#include <cstdint>
 #include <utility>
+#include <vector>
 
 class Desk {
 public:
     Desk();
-
-    Desk(const Desk& d);
-
-    ~Desk();
-
-    Desk& operator=(const Desk& d);
 
     bool checkMove(int x, int y, int color) const;
 
@@ -28,12 +22,13 @@ public:
 
     std::vector<std::pair<int, int>> getPossibleMoves() const;
 
-    int operator()(size_t x, size_t y) const;
+    int operator()(int x, int y) const;
 
 private:
-    int* fieldData;
-    int** field;
     int currentColor;
+    uint64_t blackMask;
+    uint64_t whiteMask;
 
     int distanceNearest(int x, int y, int color, int dx, int dy) const;
+    void setColor(int x, int y, int color);
 };

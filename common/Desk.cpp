@@ -1,40 +1,12 @@
 #include "Desk.h"
 
-Desk::Desk() {
-    fieldData = new int[8 * 8];
-    memset(fieldData, 0, 8 * 8 * sizeof(int));
-
-    field = new int* [8];
-    for (size_t i = 0; i < 8; ++i) {
-        field[i] = fieldData + 8 * i;
-    }
-
-    field[3][3] = field[4][4] = -1;
-    field[3][4] = field[4][3] = 1;
-    currentColor = 1;
-}
-
-Desk::Desk(const Desk& d) {
-    fieldData = new int[8 * 8];
-    memcpy(fieldData, d.fieldData, 8 * 8 * sizeof(int));
-
-    field = new int* [8];
-    for (size_t i = 0; i < 8; ++i) {
-        field[i] = fieldData + 8 * i;
-    }
-
-    currentColor = d.currentColor;
-}
-
-Desk::~Desk() {
-    delete[] fieldData;
-    delete[] field;
-}
-
-Desk& Desk::operator=(const Desk& d) {
-    memcpy(fieldData, d.fieldData, 8 * 8 * sizeof(int));
-    currentColor = d.currentColor;
-    return *this;
+Desk::Desk():
+    currentColor(1),
+    blackMask(), whiteMask() {
+    setColor(3, 3, -1);
+    setColor(4, 4, -1);
+    setColor(3, 4, 1);
+    setColor(4, 3, 1);
 }
 
 bool Desk::checkMove(int x, int y, int color) const {
@@ -44,7 +16,7 @@ bool Desk::checkMove(int x, int y, int color) const {
     if (color != -1 && color != 1) {
         return false;
     }
-    if (field[x][y] != 0) {
+    if (operator()(x, y) != 0) {
         return false;
     }
 
@@ -95,12 +67,12 @@ bool Desk::makeMove(int x, int y) {
             for (int i = 0; i < d; ++i) {
                 x1 += dx;
                 y1 += dy;
-                field[x1][y1] = currentColor;
+                setColor(x1, y1, currentColor);
             }
         }
     }
 
-    field[x][y] = currentColor;
+    setColor(x, y, currentColor);
     if (checkAnyMove(-currentColor)) {
         currentColor = -currentColor;
     }
@@ -118,9 +90,9 @@ std::pair<int, int> Desk::getScore() const {
 
     for (int x = 0; x < 8; ++x) {
         for (int y = 0; y < 8; ++y) {
-            if (field[x][y] == 1) {
+            if (operator()(x, y) == 1) {
                 ++black;
-            } else if (field[x][y] == -1) {
+            } else if (operator()(x, y) == -1) {
                 ++white;
             }
         }
@@ -153,9 +125,9 @@ int Desk::distanceNearest(int x, int y, int color, int dx, int dy) const {
             break;
         }
 
-        if (field[x][y] == -color) {
+        if (operator()(x, y) == -color) {
             foundOpponent = true;
-        } else if (field[x][y] == color) {
+        } else if (operator()(x, y) == color) {
             if (foundOpponent) {
                 return d;
             } else {
@@ -169,9 +141,24 @@ int Desk::distanceNearest(int x, int y, int color, int dx, int dy) const {
     return -1;
 }
 
-int Desk::operator()(size_t x, size_t y) const {
-    if (x >= 8 || y >= 8) {
-        return 0;
+int Desk::operator()(int x, int y) const {
+    if ((blackMask >> (8 * x + y)) & 1) {
+        return 1;
     }
-    return field[x][y];
+    if ((whiteMask >> (8 * x + y)) & 1) {
+        return -1;
+    }
+    return 0;
+}
+
+void Desk::setColor(int x, int y, int color) {
+    uint64_t bit = 1;
+    bit <<= 8 * x + y;
+    if (color == 1) {
+        blackMask |= bit;
+        whiteMask &= ~bit;
+    } else {
+        whiteMask |= bit;
+        blackMask &= ~bit;
+    }
 }
