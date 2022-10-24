@@ -31,7 +31,7 @@ Desk::~Desk() {
     delete[] field;
 }
 
-Desk Desk::operator=(const Desk& d) {
+Desk& Desk::operator=(const Desk& d) {
     memcpy(fieldData, d.fieldData, 8 * 8 * sizeof(int));
     currentColor = d.currentColor;
     return *this;
@@ -72,6 +72,10 @@ bool Desk::checkAnyMove(int color) const {
     }
 
     return false;
+}
+
+bool Desk::checkAnyMove() const {
+    return checkAnyMove(-1) || checkAnyMove(1);
 }
 
 bool Desk::makeMove(int x, int y) {

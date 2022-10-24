@@ -3,26 +3,26 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set(SOURCES 
-	AIPlayer.cpp
-	Desk.cpp
-	Evaluator.cpp
-	Game.cpp
-	GameWindow.cpp
-	main.cpp
-	WindowPlayer.cpp
+	visualizer/AIPlayer.cpp
+	visualizer/Evaluator.cpp
+	visualizer/Game.cpp
+	visualizer/GameWindow.cpp
+	visualizer/main.cpp
+	visualizer/WindowPlayer.cpp
 )
 set(RESOURCES
-	res/font.ttf
-	res/default.model
+	visualizer/res/font.ttf
+	visualizer/res/black.model
+	visualizer/res/white.model
 )
 
-project(Visualizer)
-add_executable(Visualizer ${SOURCES})
+project(visualizer VERSION 1.0)
+add_executable(visualizer ${SOURCES})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	set(THREADS_PREFER_PTHREAD_FLAG ON)
 	find_package(Threads REQUIRED)
-	target_link_libraries(Visualizer PRIVATE Threads::Threads)
+	target_link_libraries(visualizer PRIVATE Threads::Threads)
 
 	if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 		find_library(SFML_GRAPHICS NAMES sfml-graphics-d REQUIRED)
@@ -39,12 +39,12 @@ else()
 	find_library(WINMM NAMES winmm REQUIRED)
 	find_library(GDI32 NAMES gdi32 REQUIRED)
 	
-	target_link_libraries(Visualizer PRIVATE ${FREETYPE})
-	target_link_libraries(Visualizer PRIVATE ${OPENGL32})
-	target_link_libraries(Visualizer PRIVATE ${WINMM})
-	target_link_libraries(Visualizer PRIVATE ${GDI32})
+	target_link_libraries(visualizer PRIVATE ${FREETYPE})
+	target_link_libraries(visualizer PRIVATE ${OPENGL32})
+	target_link_libraries(visualizer PRIVATE ${WINMM})
+	target_link_libraries(visualizer PRIVATE ${GDI32})
 
-	target_compile_definitions(Visualizer PRIVATE SFML_STATIC)
+	target_compile_definitions(visualizer PRIVATE SFML_STATIC)
 
 	if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 		find_library(SFML_GRAPHICS NAMES sfml-graphics-s-d REQUIRED)
@@ -57,14 +57,17 @@ else()
 	endif()
 endif()
 
-target_link_libraries(Visualizer PRIVATE ${SFML_GRAPHICS})
-target_link_libraries(Visualizer PRIVATE ${SFML_WINDOW})
-target_link_libraries(Visualizer PRIVATE ${SFML_SYSTEM})
+target_link_libraries(visualizer PRIVATE ${SFML_GRAPHICS})
+target_link_libraries(visualizer PRIVATE ${SFML_WINDOW})
+target_link_libraries(visualizer PRIVATE ${SFML_SYSTEM})
 
 find_package(Torch REQUIRED)
-target_link_libraries(Visualizer PRIVATE ${TORCH_LIBRARIES})
-target_include_directories(Visualizer PRIVATE ${TORCH_INCLUDE_DIRS})
-target_compile_options(Visualizer PRIVATE ${TORCH_CXX_FLAGS})
+target_link_libraries(visualizer PRIVATE ${TORCH_LIBRARIES})
+target_include_directories(visualizer PRIVATE ${TORCH_INCLUDE_DIRS})
+target_compile_options(visualizer PRIVATE ${TORCH_CXX_FLAGS})
 
-install(TARGETS Visualizer DESTINATION .)
+target_link_libraries(visualizer PRIVATE common_modules)
+target_include_directories(visualizer PRIVATE ${CMAKE_SOURCE_DIR})
+
+install(TARGETS visualizer DESTINATION .)
 install(FILES ${RESOURCES} DESTINATION ./res)

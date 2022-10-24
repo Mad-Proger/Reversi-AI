@@ -1,6 +1,6 @@
 #include "GameWindow.h"
 
-GameWindow::GameWindow(Game& game, const std::filesystem::path& fontFile) :
+GameWindow::GameWindow(Game& game, const std::filesystem::path& fontFile):
     game(game), piecesData(),
     deskUpperLeftCorner(sf::Vector2f(80.f, 130.f)),
     cellSize(80.f, 80.f), pieceRadius(35.f) {
@@ -170,7 +170,8 @@ void GameWindow::updateDesk() {
                     continue;
                 }
 
-                pieceBuffer.setPosition(deskUpperLeftCorner + pieceShift + sf::Vector2f(cellSize.x * j, cellSize.y * i));
+                pieceBuffer.setPosition(
+                    deskUpperLeftCorner + pieceShift + sf::Vector2f(cellSize.x * j, cellSize.y * i));
                 if (piecesDataBuffer[i][j] == 1) {
                     pieceBuffer.setFillColor(sf::Color::Black);
                 } else {

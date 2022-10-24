@@ -1,7 +1,6 @@
 #include "AIPlayer.h"
 
-AIPlayer::AIPlayer(const Evaluator& evaluator, size_t recursionDepth) : evaluator(evaluator), maxDepth(recursionDepth) {
-}
+AIPlayer::AIPlayer(const Evaluator& evaluator, size_t recursionDepth): evaluator(evaluator), maxDepth(recursionDepth) {}
 
 void AIPlayer::findMove(const Desk& d, int& xOpt, int& yOpt) {
     xOpt = 8;
@@ -24,6 +23,8 @@ void AIPlayer::findMove(const Desk& d, int& xOpt, int& yOpt) {
             yOpt = y;
         }
     }
+
+    std::cout << optValue << std::endl;
 }
 
 float AIPlayer::dfs(float alpha, float beta, const Desk& d, size_t depth) const {
